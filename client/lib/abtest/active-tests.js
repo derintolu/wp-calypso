@@ -132,4 +132,13 @@ export default {
 		defaultVariation: 'control',
 		allowExistingUsers: true,
 	},
+	domainStepPlanStepSwap: {
+		datestamp: '20200415',
+		variations: {
+			variantShowSwapped: 50,
+			control: 50,
+		},
+		defaultVariation: 'control',
+		allowExistingUsers: true,
+	},
 };
