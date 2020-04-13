@@ -91,7 +91,7 @@ const DomainPicker: FunctionComponent< Props > = ( { onDomainSelect, onClose, cu
 					<div className="domain-picker__header">
 						<div className="domain-picker__header-group">
 							<div className="domain-picker__header-title">{ __( 'Choose a domain' ) }</div>
-							<p>{ __( 'Free for the first year with any paid plan' ) }</p>
+							<p>{ __( 'Free for the first year with any paid plan.' ) }</p>
 						</div>
 						<CloseButton onClose={ () => onClose() } />
 					</div>
