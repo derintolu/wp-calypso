@@ -3,6 +3,7 @@
  */
 import analytics from 'lib/analytics';
 import { gaRecordEvent } from 'lib/analytics/ga';
+import { add as addToQueue } from 'lib/analytics/queue';
 import {
 	adTrackSignupStart,
 	adTrackSignupComplete,
@@ -24,7 +25,8 @@ export function recordSignupComplete(
 ) {
 	if ( ! now ) {
 		// Delay using the analytics localStorage queue.
-		return analytics.queue.add(
+		return addToQueue(
+			'signup',
 			'recordSignupComplete',
 			{ flow, isNewUser, isNewSite, hasCartItems, isNew7DUserSite },
 			true
