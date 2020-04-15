@@ -498,9 +498,6 @@ function prepareFrDomainContactExtraDetailsErrors(
 	return null;
 }
 
-	};
-}
-
 /*
  * Helper type which bundles the field updaters in a single object
  * to help keep import lists under control. All updaters should
