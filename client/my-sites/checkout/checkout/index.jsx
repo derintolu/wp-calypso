@@ -588,7 +588,7 @@ export class Checkout extends React.Component {
 			stepResult,
 			shouldHideUpsellNudges
 		);
-		
+
 		if ( redirectPathForConciergeUpsell ) {
 			return redirectPathForConciergeUpsell;
 		}
