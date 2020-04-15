@@ -23,6 +23,7 @@ const cardComponents = {
 	'home-education-free-photo-library': FreePhotoLibrary,
 	'home-feature-go-mobile-desktop': GoMobile,
 	'home-feature-grow-and-earn': GrowEarn,
+	'home-feature-quick-start': QuickStart,
 	'home-feature-stats': Stats,
 	'home-feature-support': Support,
 	'home-section-learn-grow': LearnGrow,
@@ -41,7 +42,6 @@ const Secondary = ( { cards } ) => {
 
 	return (
 		<>
-			<QuickStartCard />
 			{ cards.map( card => {
 				if ( ! cardComponents[ card ] ) {
 					return null;
