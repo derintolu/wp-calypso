@@ -11,8 +11,9 @@ import page from 'page';
  */
 import DocumentHead from 'components/data/document-head';
 import QueryJetpackScanHistory from 'components/data/query-jetpack-scan-history';
-import ScanHistoryItem from '../../../components/scan-history-item';
+import ScanHistoryItem from 'landing/jetpack-cloud/components/scan-history-item';
 import SimplifiedSegmentedControl from 'components/segmented-control/simplified';
+import { recordTracksEvent } from 'state/analytics/actions';
 import { getSelectedSiteSlug, getSelectedSiteId } from 'state/ui/selectors';
 import Main from 'components/main';
 import SidebarNavigation from 'my-sites/sidebar-navigation';
@@ -120,11 +121,15 @@ class ScanHistoryPage extends Component {
 	};
 
 	handleOnFilterChange = filter => {
-		const { siteSlug } = this.props;
+		const { siteSlug, siteId, dispatchRecordTracksEvent } = this.props;
 		let filterValue = filter.value;
 		if ( 'all' === filterValue ) {
 			filterValue = '';
 		}
+		dispatchRecordTracksEvent( 'calypso_scan_history_filter_update', {
+			site_id: siteId,
+			filter: filterValue,
+		} );
 		page.show( `/scan/history/${ siteSlug }/${ filterValue }` );
 	};
 
@@ -169,15 +174,18 @@ class ScanHistoryPage extends Component {
 	}
 }
 
-export default connect( state => {
-	const siteId = getSelectedSiteId( state );
+export default connect(
+	state => {
+		const siteId = getSelectedSiteId( state );
 
-	// TODO: Get state from actual API.
-	const scanHistoryLogEntries = scanEntries;
+		// TODO: Get state from actual API.
+		const scanHistoryLogEntries = scanEntries;
 
-	return {
-		siteId,
-		siteSlug: getSelectedSiteSlug( state ),
-		logEntries: scanHistoryLogEntries,
-	};
-} )( ScanHistoryPage );
+		return {
+			siteId,
+			siteSlug: getSelectedSiteSlug( state ),
+			logEntries: scanHistoryLogEntries,
+		};
+	},
+	{ dispatchRecordTracksEvent: recordTracksEvent }
+)( ScanHistoryPage );

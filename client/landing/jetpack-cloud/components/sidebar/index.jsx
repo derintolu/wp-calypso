@@ -22,6 +22,7 @@ import SidebarFooter from 'layout/sidebar/footer';
 import SidebarItem from 'layout/sidebar/item';
 import SidebarMenu from 'layout/sidebar/menu';
 import SidebarRegion from 'layout/sidebar/region';
+import { recordTracksEvent } from 'state/analytics/actions';
 import { isSidebarSectionOpen } from 'state/my-sites/sidebar/selectors';
 import {
 	expandMySitesSidebarSection as expandSection,
@@ -64,9 +65,16 @@ class JetpackCloudSidebar extends Component {
 
 	toggleSection = memoize( id => () => this.props.toggleSection( id ) );
 
-	onNavigate = () => {
+	scrollToTop() {
 		window.scrollTo( 0, 0 );
-	};
+	}
+
+	onNavigate = memoize( menuItem => () => {
+		this.props.dispatchRecordTracksEvent( 'calypso_jetpack_cloud_sidebar_menuitem_click', {
+			menu_item: menuItem,
+		} );
+		this.scrollToTop();
+	} );
 
 	render() {
 		const { selectedSiteSlug, translate, threats } = this.props;
@@ -93,7 +101,7 @@ class JetpackCloudSidebar extends Component {
 										comment: 'Jetpack Cloud / Backup status sidebar navigation item',
 									} ) }
 									link={ backupMainPath( selectedSiteSlug ) }
-									onNavigate={ this.onNavigate }
+									onNavigate={ this.onNavigate( 'Jetpack Cloud Backup / Status' ) }
 									selected={
 										itemLinkMatches( backupMainPath(), this.props.path ) &&
 										! itemLinkMatches( backupActivityPath(), this.props.path )
@@ -105,7 +113,7 @@ class JetpackCloudSidebar extends Component {
 										comment: 'Jetpack Cloud / Activity Log status sidebar navigation item',
 									} ) }
 									link={ backupActivityPath( selectedSiteSlug ) }
-									onNavigate={ this.onNavigate }
+									onNavigate={ this.onNavigate( 'Jetpack Cloud Backup / Activity Log' ) }
 									selected={ itemLinkMatches( backupActivityPath(), this.props.path ) }
 								/>
 							</ul>
@@ -128,7 +136,7 @@ class JetpackCloudSidebar extends Component {
 										comment: 'Jetpack Cloud / Scanner sidebar navigation item',
 									} ) }
 									link={ selectedSiteSlug ? `/scan/${ selectedSiteSlug }` : '/scan' }
-									onNavigate={ this.onNavigate }
+									onNavigate={ this.onNavigate( 'Jetpack Cloud Scan / Scanner' ) }
 									selected={
 										itemLinkMatches( '/scan', this.props.path ) &&
 										! itemLinkMatches( '/scan/history', this.props.path )
@@ -153,7 +161,7 @@ class JetpackCloudSidebar extends Component {
 									link={
 										selectedSiteSlug ? `/scan/history/${ selectedSiteSlug }` : '/scan/history'
 									}
-									onNavigate={ this.onNavigate }
+									onNavigate={ this.onNavigate( 'Jetpack Cloud Scan / History' ) }
 									selected={ itemLinkMatches( '/scan/history', this.props.path ) }
 								/>
 							</ul>
@@ -165,7 +173,7 @@ class JetpackCloudSidebar extends Component {
 								comment: 'Jetpack Cloud / Backups sidebar navigation item',
 							} ) }
 							link={ selectedSiteSlug ? `/settings/${ selectedSiteSlug }` : '/settings' }
-							onNavigate={ this.onNavigate }
+							onNavigate={ this.onNavigate( 'Jetpack Cloud / Settings' ) }
 							materialIcon="settings"
 							materialIconStyle="filled"
 							selected={ this.isSelected( '/settings' ) }
@@ -181,7 +189,7 @@ class JetpackCloudSidebar extends Component {
 							link="https://jetpack.com/support"
 							materialIcon="help"
 							materialIconStyle="filled"
-							onNavigate={ this.onNavigate }
+							onNavigate={ this.onNavigate( 'Jetpack Cloud / Support' ) }
 							selected={ this.isSelected( '/support' ) }
 						/>
 						<SidebarItem
@@ -221,5 +229,6 @@ export default connect(
 	{
 		expandSection,
 		toggleSection,
+		dispatchRecordTracksEvent: recordTracksEvent,
 	}
 )( localize( JetpackCloudSidebar ) );
