@@ -396,12 +396,9 @@ function MyCheckoutBody() {
 
 	return (
 		<Checkout>
-			<CheckoutSummary
-				titleContent={ orderSummary.titleContent }
-				summaryContent={ orderSummary.summaryContent }
-				stepId={ 'order-summary' }
-				className={ orderSummary.className }
-			/>
+			<CheckoutSummary className={ orderSummary.className }>
+				{ orderSummary.summaryContent }
+			</CheckoutSummary>
 			<CheckoutSteps>
 				<CheckoutStepBody
 					activeStepContent={ orderSummaryStep.activeStepContent }
