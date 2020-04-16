@@ -216,6 +216,13 @@ class Document extends React.Component {
 							} }
 						/>
 					) }
+
+					{ entrypoint?.language?.manifest && <script src={ entrypoint.language.manifest } /> }
+
+					{ ( entrypoint?.language?.translations || [] ).map( translationChunk => (
+						<script key={ translationChunk } src={ translationChunk } />
+					) ) }
+
 					{ entrypoint.js.map( asset => (
 						<script key={ asset } src={ asset } />
 					) ) }
