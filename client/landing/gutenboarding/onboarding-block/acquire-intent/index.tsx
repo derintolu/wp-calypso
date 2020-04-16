@@ -14,12 +14,14 @@ import { Step, usePath } from '../../path';
 import Link from '../../components/link';
 import VerticalSelect from './vertical-select';
 import SiteTitle from './site-title';
+import { useTrackStep } from '../../analytics';
 import './style.scss';
 
 const AcquireIntent: FunctionComponent = () => {
 	const { __ } = useI18n();
 	const { siteVertical, siteTitle } = useSelect( select => select( STORE_KEY ).getState() );
 	const makePath = usePath();
+	useTrackStep( 'IntentGathering' );
 
 	return (
 		<div className="gutenboarding-page acquire-intent">

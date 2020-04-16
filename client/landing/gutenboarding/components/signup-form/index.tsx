@@ -1,12 +1,11 @@
 /**
  * External dependencies
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, ExternalLink, TextControl, Modal, Notice } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { createInterpolateElement } from '@wordpress/element';
 import { useI18n } from '@automattic/react-i18n';
-import { recordTracksEvent } from '@automattic/calypso-analytics';
 
 /**
  * Internal dependencies
@@ -20,6 +19,7 @@ import SignupFormHeader from './header';
 import GUTENBOARDING_BASE_NAME from '../../basename.json';
 
 import { localizeUrl } from '../../../../lib/i18n-utils';
+import { useTrackStep } from '../../analytics';
 
 interface Props {
 	onRequestClose: () => void;
@@ -42,11 +42,7 @@ const SignupForm = ( { onRequestClose }: Props ) => {
 		onRequestClose();
 	};
 
-	useEffect( () => {
-		recordTracksEvent( 'calypso_gutenboarding_signup_start', {
-			flow: 'gutenboarding',
-		} );
-	}, [] );
+	useTrackStep( 'Signup' );
 
 	const lang = useLangRouteParam();
 
