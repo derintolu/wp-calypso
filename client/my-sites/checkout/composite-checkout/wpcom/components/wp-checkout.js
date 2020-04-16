@@ -175,9 +175,6 @@ export default function WPCheckout( {
 								countriesList={ countriesList }
 								StateSelect={ StateSelect }
 								renderDomainContactFields={ renderDomainContactFields }
-								updateContactDetails={ updateContactDetails }
-								updateCountryCode={ updateCountryCode }
-								updatePostalCode={ updatePostalCode }
 								shouldShowContactDetailsValidationErrors={
 									shouldShowContactDetailsValidationErrors
 								}
