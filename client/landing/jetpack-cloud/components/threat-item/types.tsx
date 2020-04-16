@@ -7,6 +7,7 @@ export type ThreatAction = 'fix' | 'ignore';
 
 export type Threat = {
 	id: number;
+	signature: string;
 	title: string;
 	details: string;
 	action: null | 'fixed' | 'ignored';
