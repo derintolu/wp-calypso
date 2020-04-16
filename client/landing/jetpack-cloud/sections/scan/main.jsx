@@ -89,7 +89,7 @@ class ScanPage extends Component {
 					primary
 					target="_blank"
 					rel="noopener noreferrer"
-					href={ `https://jetpack.com/contact-support/?site=${ siteUrl }&scan-state=error` }
+					href={ `https://jetpack.com/contact-support/?url=${ siteUrl }&scan-state=error` }
 					className="scan__button"
 				>
 					{ translate( 'Contact Support {{externalIcon/}}', {
