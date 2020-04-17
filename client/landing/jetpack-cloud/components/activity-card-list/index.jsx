@@ -86,6 +86,10 @@ class ActivityCardList extends Component {
 									activity,
 									allowRestore,
 									siteSlug,
+									className:
+										activity.activityType === 'Backup'
+											? 'activity-card-list__primary-card'
+											: 'activity-card-list__secondary-card',
 								} }
 							/>
 						) ) }
