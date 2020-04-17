@@ -26,6 +26,8 @@ import NoticeAction from 'components/notice/notice-action';
 import userUtils from 'lib/user/utils';
 import LocaleSuggestions from 'components/locale-suggestions';
 import { getCurrentUser } from 'state/current-user/selectors';
+import isSiteWPForTeams from 'state/selectors/is-site-wpforteams';
+import getSelectedSiteId from 'state/ui/selectors/get-selected-site-id';
 
 /**
  * Style dependencies
@@ -122,15 +124,23 @@ class InviteAccept extends React.Component {
 
 	renderForm = () => {
 		const { invite } = this.state;
+		const { isWPForTeamsSite } = this.props;
+
 		if ( ! invite ) {
 			debug( 'Not rendering form - Invite not set' );
 			return null;
 		}
 		debug( 'Rendering invite' );
 
+		let redirectTo = getRedirectAfterAccept( invite );
+
+		if ( isWPForTeamsSite ) {
+			redirectTo = `https://${ invite.site.domain }`;
+		}
+
 		const props = {
-			invite: this.state.invite,
-			redirectTo: getRedirectAfterAccept( this.state.invite ),
+			redirectTo,
+			invite: invite,
 			decline: this.decline,
 			signInLink: this.signInLink(),
 			forceMatchingEmail: this.isMatchEmailError(),
@@ -242,8 +252,13 @@ class InviteAccept extends React.Component {
 }
 
 export default connect(
-	state => ( {
-		user: getCurrentUser( state ),
-	} ),
+	state => {
+		const selectedSiteId = getSelectedSiteId( state );
+
+		return {
+			user: getCurrentUser( state ),
+			isWPForTeamsSite: isSiteWPForTeams( state, selectedSiteId ),
+		};
+	},
 	{ successNotice, infoNotice }
 )( localize( InviteAccept ) );
