@@ -23,6 +23,7 @@ import {
 import CloseButton from '../close-button';
 import { useDomainSuggestions } from '../../hooks/use-domain-suggestions';
 import { PAID_DOMAINS_TO_SHOW } from '../../constants';
+import { useTrackModal } from '../../analytics';
 
 /**
  * Style dependencies
@@ -83,6 +84,8 @@ const DomainPicker: FunctionComponent< Props > = ( { onDomainSelect, onClose, cu
 		PAID_DOMAINS_TO_SHOW
 	);
 	const recommendedSuggestion = getRecommendedDomainSuggestion( paidSuggestions );
+
+	useTrackModal( 'DomainPicker' );
 
 	return (
 		<Panel className="domain-picker">
