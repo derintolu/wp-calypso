@@ -35,14 +35,9 @@ export const fetchStoredCards = () => dispatch => {
 		type: STORED_CARDS_FETCH,
 	} );
 
-	return new Promise( ( resolve, reject ) => {
-		wp.undocumented().getPaymentMethods(
-			{ type: 'all', forgotten: 'exclude', expired: 'exclude' },
-			( error, data ) => {
-				error ? reject( error ) : resolve( data );
-			}
-		);
-	} )
+	return wp
+		.undocumented()
+		.getPaymentMethods( { type: 'all', forgotten: 'exclude', expired: 'exclude' } )
 		.then( data => {
 			dispatch( {
 				type: STORED_CARDS_FETCH_COMPLETED,
@@ -64,15 +59,11 @@ export const deleteStoredCard = card => dispatch => {
 	} );
 
 	return Promise.all(
-		card.allStoredDetailsIds.map(
-			storedDetailsId =>
-				new Promise( ( resolve, reject ) => {
-					wp.undocumented()
-						.me()
-						.storedCardDelete( { stored_details_id: storedDetailsId }, ( error, data ) => {
-							error ? reject( error ) : resolve( data );
-						} );
-				} )
+		card.allStoredDetailsIds.map( storedDetailsId =>
+			wp
+				.undocumented()
+				.me()
+				.storedCardDelete( { stored_details_id: storedDetailsId } )
 		)
 	)
 		.then( () => {
